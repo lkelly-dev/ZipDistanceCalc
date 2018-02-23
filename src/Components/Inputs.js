@@ -12,25 +12,29 @@ class Inputs extends Component {
   }
 
   onChange = e => {
+    //update state when a user updates a value in an input
     const state = this.state;
     state[e.target.name] = e.target.value;
     this.setState(state);
   };
 
   onSubmit = e => {
-    // console.log("Submitted");
+    //get current input values when the user hits "calculate"
     e.preventDefault();
     const { inputOne, inputTwo } = this.state;
 
-    //TODO log invalid zipcode
+    //make sure the input values aren't identical
     if (inputOne === inputTwo) {
       alert("You have entered the same zipcode twice!");
       return null;
     }
+    //get the distance between zip codes
     this.calculateDistance(inputOne, inputTwo);
   };
 
   calculateDistance = (zipOne, zipTwo) => {
+    //Find zipcode in data array, alert user if no object is found
+    //extract relevant data from the found object
     let firstZip = this.getObjectFromArray(zipOne);
     if (firstZip === undefined) {
       alert("Sorry, your first zipcode was not found.");
@@ -49,17 +53,22 @@ class Inputs extends Component {
     const long2 = secondZip.Long;
     const city2 = secondZip.City;
 
+    //get the distance
     const distance = this.distance(lat1, long1, lat2, long2);
+
+    //pass the distance to the parent component
     this.props.updateResults(distance, city1, city2);
   };
 
   getObjectFromArray(zip) {
+    //searches for object matching the passed zip
     return this.props.zipArray.find(function(element) {
       return element.Zipcode === zip;
     });
   }
 
   distance(lat1, lon1, lat2, lon2) {
+    //calculates distance between lat/long points
     var p = 0.017453292519943295; // Math.PI / 180
     var c = Math.cos;
     var a =
@@ -71,29 +80,27 @@ class Inputs extends Component {
   render() {
     const { inputOne, inputTwo } = this.state;
     return (
-      <div>
-        <ZipForm onSubmit={this.onSubmit} method="post" target="_blank" enctype="text/plain">
-          <ZipInput
-            type="text"
-            required
-            value={inputOne}
-            name="inputOne"
-            onChange={this.onChange}
-            placeholder="First Zipcode"
-            pattern="[0-9]{5}"
-          />
-          <ZipInput
-            type="text"
-            required
-            value={inputTwo}
-            name="inputTwo"
-            onChange={this.onChange}
-            placeholder="Second Zipcode"
-            pattern="[0-9]{5}"
-          />
-          <ZipCalculate type="submit">Calculate</ZipCalculate>
-        </ZipForm>
-      </div>
+      <ZipForm onSubmit={this.onSubmit} method="post" target="_blank" enctype="text/plain">
+        <ZipInput
+          type="text"
+          required
+          value={inputOne}
+          name="inputOne"
+          onChange={this.onChange}
+          placeholder="First Zipcode"
+          pattern="[0-9]{5}"
+        />
+        <ZipInput
+          type="text"
+          required
+          value={inputTwo}
+          name="inputTwo"
+          onChange={this.onChange}
+          placeholder="Second Zipcode"
+          pattern="[0-9]{5}"
+        />
+        <ZipCalculate type="submit">Calculate</ZipCalculate>
+      </ZipForm>
     );
   }
 }

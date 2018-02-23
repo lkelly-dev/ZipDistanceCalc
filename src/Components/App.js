@@ -13,11 +13,15 @@ class App extends Component {
     };
   }
   componentDidMount() {
+    //get data from csv on initial load
     this.getZipData();
   }
 
   getZipData = () => {
-    const zipFile = require("./free-zipcode-database.csv");
+    //get file location
+    const zipFile = require("../DataFiles/free-zipcode-database.csv");
+
+    //parse zipcode data from file and save to state
     Papa.parse(zipFile, {
       header: true,
       download: true,
@@ -29,20 +33,18 @@ class App extends Component {
   };
 
   zipDistanceResult = (distance, firstCity, secondCity) => {
+    //get distance and info from <Input> and update state
     this.setState({ distanceResult: distance, firstCity, secondCity });
   };
   render() {
+    const { zipData, distanceResult, firstCity, secondCity } = this.state;
     return (
       <AppContainer>
         <header>
           <AppTitle>ZipDistance Calculator</AppTitle>
         </header>
-        <Inputs zipArray={this.state.zipData} updateResults={this.zipDistanceResult} />
-        <DistanceDisplay
-          result={this.state.distanceResult}
-          firstCity={this.state.firstCity}
-          secondCity={this.state.secondCity}
-        />
+        <Inputs zipArray={zipData} updateResults={this.zipDistanceResult} />
+        <DistanceDisplay result={distanceResult} firstCity={firstCity} secondCity={secondCity} />
       </AppContainer>
     );
   }

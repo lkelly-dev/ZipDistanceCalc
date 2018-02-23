@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 class DistanceDisplay extends Component {
   capitalizeFirstLetter = string => {
+    //Takes input string and returns a string with only the first letter capitalized
     string = string.toLowerCase();
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -33,4 +34,8 @@ const ResultText = styled.h1`
   text-align: center;
   color: #2c3e50;
   font-weight: 100;
+  @media (max-width: 380px) {
+    font-size: 1.5em;
+    margin-top: 1em;
+  }
 `;
