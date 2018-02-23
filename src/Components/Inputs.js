@@ -121,6 +121,7 @@ const ZipForm = styled.form`
 const ZipInput = styled.input`
   width: 100%;
   height: 60px;
+  margin-bottom: 5px;
   background: none;
   border: none;
   border-bottom: 1px solid #34495e;
@@ -133,6 +134,9 @@ const ZipInput = styled.input`
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s 0.1s, opacity 0.1s linear;
+  }
+  &:required {
+    box-shadow: none;
   }
   @media (max-width: 420px) {
     font-size: 22px;
